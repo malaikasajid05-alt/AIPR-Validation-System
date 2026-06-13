@@ -1,3 +1,6 @@
+> [!NOTE]
+> The `main` branch contains the complete, production-ready code.
+> The `feature` branch is used for ongoing development and experiments.
 
 <div align="center">
 
@@ -88,59 +91,74 @@
 ### 🏠 Dashboard — Validation Command Center
 > Monitor project health, connect GitHub webhooks, and review AI-generated pull request feedback
 
-![Dashboard](https://github.com/user-attachments/assets/placeholder-dashboard)
+<img width="959" height="438" alt="Dashboard1" src="https://github.com/user-attachments/assets/69df6e9b-09a9-484a-b9fa-e068dea41a29" />
+
+
+<img width="959" height="434" alt="Dashboard2" src="https://github.com/user-attachments/assets/184837fd-6ba9-4472-aedf-78e3457a0789" />
 
 ---
 
 ### 📁 Projects — Manage Connected Repositories
 
-![Projects Page](https://github.com/user-attachments/assets/placeholder-projects)
+<img width="958" height="434" alt="Projects" src="https://github.com/user-attachments/assets/0a40f672-ff4e-4db1-a6e7-4abfa6b84b3c" />
+
 
 ### ➕ Create New Project
 
-![New Project Modal](https://github.com/user-attachments/assets/placeholder-new-project)
+<img width="959" height="437" alt="Create Project" src="https://github.com/user-attachments/assets/1c0c329a-e1ea-4785-8ba5-bffc1e88f3f5" />
 
 ---
 
 ### 📂 Project Details — Sprints & Recent Reviews
 
-![Project Details](https://github.com/user-attachments/assets/placeholder-project-details)
+<img width="948" height="438" alt="Project Details" src="https://github.com/user-attachments/assets/74a72f6d-d542-4e9b-80a3-b6b159002bd1" />
+
 
 ### ➕ Add Sprint
 
-![Add Sprint Modal](https://github.com/user-attachments/assets/placeholder-add-sprint)
+<img width="944" height="434" alt="Create Sprint" src="https://github.com/user-attachments/assets/34958423-8f45-46c0-a042-f44ab7a840f4" />
 
 ---
 
 ### 📋 Sprint Details — Requirements Management
 > Define what the AI should validate in each pull request
 
-![Sprint Details & Requirements](https://github.com/user-attachments/assets/placeholder-sprint-details)
+<img width="957" height="430" alt="Sprint Details" src="https://github.com/user-attachments/assets/885a88a4-29d0-46bd-966d-d349daba5f58" />
 
 ---
 
 ### 🔗 Webhooks — GitHub Event Endpoints
 > Copy your unique webhook URL and register it in your GitHub repository settings
 
-![Webhooks Page](https://github.com/user-attachments/assets/placeholder-webhooks)
+<img width="958" height="434" alt="Webhooks" src="https://github.com/user-attachments/assets/c5199822-9c98-495b-bf0f-9e1004f7c874" />
+
+---
+
+### 🔍 PR Reviews — AI Validation Intelligence
+> Browse stored reviews, view AI scores, status badges, and detailed feedback for each pull request
+
+<img width="959" height="436" alt="PR Reviews" src="https://github.com/user-attachments/assets/f76179f5-ec79-41d4-9967-413edff5d3c0" />
 
 ---
 
 ### ⚙️ Settings — Account & Preferences (Light Mode)
 
-![Settings Light Mode](https://github.com/user-attachments/assets/placeholder-settings-light)
+<img width="952" height="431" alt="Screenshot 2026-05-19 214722" src="https://github.com/user-attachments/assets/13b4e56c-bd3b-4a00-a129-eafbf1ae370d" />
+<img width="958" height="438" alt="Screenshot 2026-05-19 214813" src="https://github.com/user-attachments/assets/55dd30df-bbc3-49fe-935a-f75254b623db" />
 
 ### ⚙️ Settings — Account & Preferences (Dark Mode)
 
-![Settings Dark Mode](https://github.com/user-attachments/assets/placeholder-settings-dark)
+<img width="956" height="428" alt="Screenshot 2026-05-19 214749" src="https://github.com/user-attachments/assets/213e0533-d491-4f23-9b31-59b8ef071229" />
+
 
 ### 🔒 Settings — Security (Change Password)
 
-![Settings Security](https://github.com/user-attachments/assets/placeholder-settings-security)
+`<img width="959" height="439" alt="Screenshot 2026-05-19 214832" src="https://github.com/user-attachments/assets/f4b3d28c-093e-4102-93fe-9ebb37eb9ae4" />
+
 
 </div>
 
-> **Note:** Replace the placeholder image URLs above with your actual GitHub-uploaded image URLs after pushing the screenshots to your repository.
+
 
 ---
 
@@ -389,12 +407,142 @@ Each PR receives:
 
 ---
 
-## 🧪 Running Tests
+## 🌐 Exposing Locally with ngrok
+
+If you want to share your locally running AIPR system with a supervisor, teammate, or configure real GitHub Webhooks without deploying, you can use **ngrok** to create a public tunnel to your machine.
+
+### Step 1 — Install ngrok
+
+Create a free account at [ngrok.com](https://ngrok.com), download ngrok, and install it.
+
+### Step 2 — Connect ngrok to Your Account
+
+Copy your Auth Token from the ngrok dashboard and run:
+
+```bash
+ngrok config add-authtoken YOUR_AUTH_TOKEN
+```
+
+### Step 3 — Start the Backend
 
 ```bash
 cd backend
-.\mvnw test
+.\mvnw spring-boot:run
 ```
+
+Verify it runs at `http://localhost:8080`.
+
+### Step 4 — Expose the Backend with ngrok
+
+Open a new terminal:
+
+```bash
+ngrok http 8080
+```
+
+You'll get a public URL like:
+
+```
+Forwarding https://abc123.ngrok-free.app -> http://localhost:8080
+```
+
+Copy `https://abc123.ngrok-free.app` — this is your **public backend URL**.
+
+### Step 5 — Update Frontend API URL
+
+In your frontend, change the base API URL from:
+
+```javascript
+http://localhost:8080
+```
+
+to:
+
+```javascript
+const API_URL = "https://abc123.ngrok-free.app";
+```
+
+### Step 6 — Start the Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Runs at `http://localhost:5173`.
+
+### Step 7 — Expose the Frontend with ngrok
+
+Open another terminal:
+
+```bash
+ngrok http 5173
+```
+
+You'll get:
+
+```
+Forwarding https://xyz456.ngrok-free.app -> http://localhost:5173
+```
+
+Copy `https://xyz456.ngrok-free.app` — this is your **public frontend URL**.
+
+### Step 8 — Configure CORS in Spring Boot
+
+Since the frontend and backend are now on different public URLs, add CORS config:
+
+```java
+@Configuration
+public class CorsConfig {
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("https://xyz456.ngrok-free.app")
+                        .allowedMethods("*");
+            }
+        };
+    }
+}
+```
+
+Replace `https://xyz456.ngrok-free.app` with your actual frontend ngrok URL.
+
+### Step 9 — Register the Webhook URL in GitHub
+
+Now that your backend is public, use the ngrok backend URL as your GitHub Webhook Payload URL:
+
+```
+https://abc123.ngrok-free.app/api/github/webhook
+```
+
+Go to your GitHub repo → **Settings** → **Webhooks** → update the Payload URL.
+
+### Step 10 — Share with Supervisor / Teacher
+
+Share only the **frontend URL**:
+
+```
+https://xyz456.ngrok-free.app
+```
+
+They can access your complete AIPR project through that link — login, register, validate PRs, and view the dashboard.
+
+### ⚠️ Common Problems
+
+| Problem | Cause & Fix |
+|:---|:---|
+| **404 Error** | Backend endpoint path is wrong — check your controller mappings |
+| **CORS Error** | Add the frontend ngrok URL to allowed origins in `CorsConfig.java` |
+| **502 Bad Gateway** | Backend is not running — start it first before running ngrok |
+| **ERR_NGROK_8012** | Wrong port number — make sure you used `ngrok http 8080` for backend |
+| **Frontend loads but API fails** | Frontend is still using `localhost:8080` — update it to the ngrok backend URL |
+
+> **Note:** Free ngrok URLs change every time you restart ngrok. You'll need to update the GitHub Webhook URL and frontend `API_URL` each session, or upgrade to a paid ngrok plan for a fixed domain.
 
 ---
 
