@@ -434,117 +434,21 @@ Verify it runs at `http://localhost:8080`.
 
 ### Step 4 — Expose the Backend with ngrok
 
-Open a new terminal:
+Open ngrok.exe and type:
 
-```bash
-ngrok http 8080
-```
+bashngrok http 8080
 
 You'll get a public URL like:
 
-```
-Forwarding https://abc123.ngrok-free.app -> http://localhost:8080
-```
+Forwarding https://condition-flick-crumb.ngrok-free.dev -> http://localhost:8080
 
-Copy `https://abc123.ngrok-free.app` — this is your **public backend URL**.
+Copy https://condition-flick-crumb.ngrok-free.dev and paste it as the Payload URL in your GitHub repository:
 
-### Step 5 — Update Frontend API URL
+GitHub repo → Settings → Webhooks → Payload URL:
 
-In your frontend, change the base API URL from:
+https://condition-flick-crumb.ngrok-free.dev/api/github/webhook
 
-```javascript
-http://localhost:8080
-```
-
-to:
-
-```javascript
-const API_URL = "https://abc123.ngrok-free.app";
-```
-
-### Step 6 — Start the Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Runs at `http://localhost:5173`.
-
-### Step 7 — Expose the Frontend with ngrok
-
-Open another terminal:
-
-```bash
-ngrok http 5173
-```
-
-You'll get:
-
-```
-Forwarding https://xyz456.ngrok-free.app -> http://localhost:5173
-```
-
-Copy `https://xyz456.ngrok-free.app` — this is your **public frontend URL**.
-
-### Step 8 — Configure CORS in Spring Boot
-
-Since the frontend and backend are now on different public URLs, add CORS config:
-
-```java
-@Configuration
-public class CorsConfig {
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("https://xyz456.ngrok-free.app")
-                        .allowedMethods("*");
-            }
-        };
-    }
-}
-```
-
-Replace `https://xyz456.ngrok-free.app` with your actual frontend ngrok URL.
-
-### Step 9 — Register the Webhook URL in GitHub
-
-Now that your backend is public, use the ngrok backend URL as your GitHub Webhook Payload URL:
-
-```
-https://abc123.ngrok-free.app/api/github/webhook
-```
-
-Go to your GitHub repo → **Settings** → **Webhooks** → update the Payload URL.
-
-### Step 10 — Share with Supervisor / Teacher
-
-Share only the **frontend URL**:
-
-```
-https://xyz456.ngrok-free.app
-```
-
-They can access your complete AIPR project through that link — login, register, validate PRs, and view the dashboard.
-
-### ⚠️ Common Problems
-
-| Problem | Cause & Fix |
-|:---|:---|
-| **404 Error** | Backend endpoint path is wrong — check your controller mappings |
-| **CORS Error** | Add the frontend ngrok URL to allowed origins in `CorsConfig.java` |
-| **502 Bad Gateway** | Backend is not running — start it first before running ngrok |
-| **ERR_NGROK_8012** | Wrong port number — make sure you used `ngrok http 8080` for backend |
-| **Frontend loads but API fails** | Frontend is still using `localhost:8080` — update it to the ngrok backend URL |
-
-> **Note:** Free ngrok URLs change every time you restart ngrok. You'll need to update the GitHub Webhook URL and frontend `API_URL` each session, or upgrade to a paid ngrok plan for a fixed domain.
-
----
+This is your public backend URL.
 
 ## 👩‍💻 Authors
 
