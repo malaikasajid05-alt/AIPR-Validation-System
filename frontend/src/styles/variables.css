@@ -1,0 +1,9 @@
+:root {
+  --bg: #ffffff;
+  --text-primary: #00221a;
+  --primary: #14b8a6;
+  --accent: #005345;
+  --border: #e2e8f0;
+  --font-headline: 'Epilogue', sans-serif;
+  --font-body: 'Newsreader', serif;
+}
